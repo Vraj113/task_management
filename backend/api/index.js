@@ -49,7 +49,6 @@ mongoose
     console.error("MongoDB connection error:", err);
   });
 
-// Export serverless function for Vercel
 module.exports = (req, res) => {
   server.emit("request", req, res);
 };
