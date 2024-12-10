@@ -1,81 +1,34 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const app = express();
-const login = require("./routes/login");
-const signup = require("./routes/signup");
-const addTaskRoute = require("./routes/addTask");
-const getTasks = require("./routes/getTasks");
-const updateTask = require("./routes/updateTask");
-const taskDetails = require("./routes/taskDetails");
-const deleteTask = require("./routes/deleteTask");
-const getEmail = require("./routes/getEmail");
 const cors = require("cors");
-const http = require("http"); // Required for integrating Socket.IO
+const http = require("http");
 const { Server } = require("socket.io");
 require("dotenv").config();
 
-const port = process.env.PORT || 5000; // Fallback to 5000 if not defined
-const origin_url = process.env.ORIGIN_URL; // Frontend URL (e.g., http://localhost:3000)
-let url = process.env.FULL_URL || "http://localhost:5000"; // Default to localhost if FULL_URL is not set
-
-console.log(
-  `Server starting on port: ${port}, Origin URL: ${origin_url}, Full URL: ${url}`
-);
-
+const app = express();
 const server = http.createServer(app);
 
-// Initialize Socket.IO with CORS options
 const io = new Server(server, {
   cors: {
-    origin: true,
+    origin: process.env.ORIGIN_URL, // Allow frontend URL
     methods: ["GET", "POST"],
   },
 });
-app.use(cors());
-// const io = new Server(server, {
-//   cors: {
-//     origin: origin_url,
-//     methods: ["GET", "POST"],
-//   },
-// });
-app.set("socketio", io);
 
-// Handling client connections
-io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
-
-  // Listen for task updates and emit to all connected clients
-  socket.on("taskUpdated", (updatedTask) => {
-    console.log("Task updated:", updatedTask);
-    io.emit("taskUpdated", updatedTask); // Broadcast task update to all connected clients
-  });
-
-  socket.on("disconnect", () => {
-    console.log("User disconnected:", socket.id);
-  });
-});
-
-// Middleware and routes
 app.use(
   cors({
-    origin: origin_url, // Frontend URL
-    credentials: true, // Allow cookies
+    origin: process.env.ORIGIN_URL, // Allow requests from the frontend
+    methods: ["GET", "POST", "OPTIONS"], // Allow necessary methods
+    credentials: true, // Allow cookies if needed
   })
 );
 
 app.use(express.json());
 
-// Pass `io` to the `addTask` route
-addTaskRoute.setSocketInstance(io);
-app.use("/addTask", addTaskRoute.router);
-
-app.use("/signup", signup);
-app.use("/login", login);
-app.use("/getTasks", getTasks);
-app.use("/updateTask", updateTask);
-app.use("/taskDetails", taskDetails);
-app.use("/deleteTask", deleteTask);
-app.use("/getEmail", getEmail);
+// Define routes (login, signup, etc.)
+app.use("/login", require("./routes/login"));
+app.use("/signup", require("./routes/signup"));
+// Add other routes...
 
 // MongoDB connection
 mongoose
@@ -91,6 +44,6 @@ mongoose
   });
 
 // Start the server
-server.listen(port, () => {
-  console.log(`App listening on port ${port}`);
+server.listen(process.env.PORT || 5000, () => {
+  console.log("App listening on port 5000");
 });
