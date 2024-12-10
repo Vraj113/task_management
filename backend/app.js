@@ -31,6 +31,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+app.use(cors());
 // const io = new Server(server, {
 //   cors: {
 //     origin: origin_url,
