@@ -1,0 +1,100 @@
+.main {
+  box-shadow: 0px 5px 5px grey;
+  border-radius: 5px;
+  padding: 10px;
+  max-width: 100%;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.titleBox {
+  font-size: 20px;
+}
+
+.descBox {
+  font-size: 16px;
+  color: rgb(72, 72, 72);
+}
+
+.status {
+  font-weight: 500;
+}
+
+.assignBox {
+  font-size: 14px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-top: auto;
+  gap: 8px;
+}
+
+.deleteButton,
+.updateButton {
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.deleteButton {
+  background-color: #c14335;
+}
+
+.updateButton {
+  background-color: #db8701;
+}
+
+.deleteButton:hover {
+  background-color: #a53326;
+}
+
+.updateButton:hover {
+  background-color: #cf711f;
+}
+
+@media (max-width: 768px) {
+  .main {
+    width: 100%;
+    max-width: none;
+    padding: 8px;
+  }
+
+  .titleBox {
+    font-size: 18px;
+  }
+
+  .descBox {
+    font-size: 14px;
+  }
+
+  .assignBox {
+    font-size: 13px;
+  }
+
+  .deleteButton,
+  .updateButton {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .buttonContainer {
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .deleteButton,
+  .updateButton {
+    width: 100%;
+  }
+}

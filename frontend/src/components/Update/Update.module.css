@@ -1,0 +1,26 @@
+.main {
+  box-shadow: 0px 5px 5px grey;
+  width: fit-content;
+  padding: 15px;
+  border-radius: 10px;
+  margin: auto;
+}
+.status,
+select {
+  font-size: 20px;
+  cursor: pointer;
+}
+.id {
+  font-size: 25px;
+  text-decoration: underline;
+}
+button {
+  background-color: black;
+  width: 100%;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 17px;
+  margin-top: 10px;
+  cursor: pointer;
+}
