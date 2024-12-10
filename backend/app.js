@@ -8,27 +8,37 @@ require("dotenv").config();
 const app = express();
 const server = http.createServer(app);
 
+// Initialize Socket.IO with CORS options
 const io = new Server(server, {
   cors: {
     origin: process.env.ORIGIN_URL, // Allow frontend URL
     methods: ["GET", "POST"],
+    credentials: true, // Allow cookies if needed
   },
 });
 
+app.set("socketio", io);
+
+// Use CORS Middleware globally
 app.use(
   cors({
-    origin: process.env.ORIGIN_URL, // Allow requests from the frontend
+    origin: process.env.ORIGIN_URL, // Allow frontend URL
     methods: ["GET", "POST", "OPTIONS"], // Allow necessary methods
     credentials: true, // Allow cookies if needed
   })
 );
 
+// Middleware to handle JSON payloads
 app.use(express.json());
 
 // Define routes (login, signup, etc.)
 app.use("/login", require("./routes/login"));
 app.use("/signup", require("./routes/signup"));
-// Add other routes...
+app.use("/getTasks", require("./routes/getTasks"));
+app.use("/updateTask", require("./routes/updateTask"));
+app.use("/taskDetails", require("./routes/taskDetails"));
+app.use("/deleteTask", require("./routes/deleteTask"));
+app.use("/getEmail", require("./routes/getEmail"));
 
 // MongoDB connection
 mongoose
