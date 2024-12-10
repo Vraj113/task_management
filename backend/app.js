@@ -22,9 +22,8 @@ app.set("socketio", io);
 // Use CORS Middleware globally
 app.use(
   cors({
-    origin: process.env.ORIGIN_URL, // Allow frontend URL
+    origin: "https://cool-task-management.vercel.app/", // Allow frontend URL
     methods: ["GET", "POST", "OPTIONS"], // Allow necessary methods
-    credentials: true, // Allow cookies if needed
   })
 );
 
