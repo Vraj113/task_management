@@ -7,23 +7,23 @@ require("dotenv").config();
 
 const app = express();
 const server = http.createServer(app);
-
-// Ensure CORs is set properly for both HTTP requests and WebSockets (Socket.io)
-const corsOptions = {
-  origin: process.env.ORIGIN_URL, // Frontend URL
-  methods: ["GET", "POST"],
-  credentials: true, // Allow cookies
-};
-
 const io = new Server(server, {
-  cors: corsOptions, // Socket.io CORS
+  cors: {
+    origin: process.env.ORIGIN_URL, // Allow frontend URL
+    methods: ["GET", "POST"],
+    credentials: true, // Allow cookies if needed
+  },
 });
 
 app.set("socketio", io);
 
 // Middleware
 app.use(
-  cors(corsOptions) // Express CORS
+  cors({
+    origin: process.env.ORIGIN_URL, // Frontend URL
+    methods: ["GET", "POST", "OPTIONS"],
+    credentials: true, // Allow cookies
+  })
 );
 app.use(express.json());
 
@@ -49,6 +49,7 @@ mongoose
     console.error("MongoDB connection error:", err);
   });
 
+// Export serverless function for Vercel
 module.exports = (req, res) => {
   server.emit("request", req, res);
 };
