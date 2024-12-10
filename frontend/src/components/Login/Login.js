@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
-  let url = process.env.REACT_APP_URL;
+  let url = process.env.REACT_APP_BACKEND_URL;
   const navigate = useNavigate();
   const [data, setData] = useState({ email: "", password: "" });
   const onChange = (e) => {
