@@ -53,3 +53,6 @@ mongoose
 module.exports = (req, res) => {
   server.emit("request", req, res);
 };
+app.listen(5000, () => {
+  console.log(`Example app listening on port 5000}`);
+});
