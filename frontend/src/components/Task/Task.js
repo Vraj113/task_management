@@ -12,7 +12,7 @@ const Task = ({
   taskId,
 }) => {
   const navigate = useNavigate();
-
+  const url = process.env.REACT_APP_URL;
   const handleDelete = async (e) => {
     e.preventDefault(); // Prevent navigation on delete button click
 
@@ -24,14 +24,11 @@ const Task = ({
     }
 
     try {
-      const response = await axios.delete(
-        `http://localhost:5000/deleteTask/${taskId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.delete(`${url}/${taskId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       alert(response.data.message);
       navigate("/"); // Navigate back to the task list or another page after deletion
