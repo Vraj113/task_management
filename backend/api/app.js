@@ -15,7 +15,7 @@ const { Server } = require("socket.io");
 require("dotenv").config();
 
 const port = process.env.PORT || 5000; // Fallback to 5000 if not defined
-const origin_url = process.env.ORIGIN_URL; // Frontend URL (e.g., http://localhost:3000)
+const origin_url = "https://cool-task-management.vercel.app"; // Frontend URL (e.g., http://localhost:3000)
 let url = process.env.FULL_URL || "http://localhost:5000"; // Default to localhost if FULL_URL is not set
 
 console.log(
@@ -71,11 +71,17 @@ app.use("/deleteTask", deleteTask);
 app.use("/getEmail", getEmail);
 
 // MongoDB connection
+const mongo_uri = process.env.MONGO_URI;
+console.log(mongo_uri);
 mongoose
-  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/mydb", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    "mongodb+srv://for_task_management:gXhd7PVbGVTwD1uO@cluster0.3o51ig0.mongodb.net/TaskManagement" ||
+      "mongodb://localhost:27017/mydb",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => {
     console.log("MongoDB connected");
   })
