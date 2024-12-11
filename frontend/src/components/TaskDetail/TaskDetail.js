@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import styles from "./TaskDetail.module.css";
-let socket_url = process.env.SOCKET_BACKEND_URL;
+let socket_url = process.env.REACT_APP_BACKEND_URL;
 const socket = io(socket_url);
 
 const TaskDetail = () => {

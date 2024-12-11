@@ -7,7 +7,7 @@ import { io } from "socket.io-client";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-let socket_url = process.env.SOCKET_BACKEND_URL;
+let socket_url = process.env.REACT_APP_BACKEND_URL;
 const socket = io(socket_url); // Replace with your backend URL
 const Tasks = () => {
   let url = process.env.REACT_APP_URL;

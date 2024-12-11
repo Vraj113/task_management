@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 const Navbar = () => {
-  const url = process.env.REACT_APP_URL;
+  const url = process.env.REACT_URL;
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
