@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 const Navbar = () => {
+  const url = process.env.REACT_APP_URL;
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,7 +19,7 @@ const Navbar = () => {
         return;
       }
 
-      const response = await axios.get("http://localhost:5000/getEmail", {
+      const response = await axios.get(`${url}/getEmail`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -37,9 +38,13 @@ const Navbar = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      navigate("/login");
+      if (location.pathname !== "/login" || location.pathname !== "/signup") {
+        navigate("/login");
+        return;
+      } else {
+        getEmail();
+      }
     }
-    getEmail();
   }, []);
   const LogOut = () => {
     setEmail("");
@@ -54,11 +59,23 @@ const Navbar = () => {
         padding: "10px",
       }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div style={{ fontSize: "20px", marginLeft: "20px" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          cursor: "pointer",
+        }}
+      >
+        <div
+          style={{ fontSize: "20px", marginLeft: "20px" }}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           Task Management
         </div>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex ", alignItems: "center" }}>
           <div style={{ fontSize: "20px", marginRight: "20px" }}>{email}</div>
           {email && (
             <button
@@ -75,7 +92,7 @@ const Navbar = () => {
             </button>
           )}
           {!email && (
-            <div>
+            <div style={{ display: "flex" }}>
               <button
                 style={{
                   backgroundColor: "black",
