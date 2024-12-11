@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom"; // To get the taskId from the URL
 import styles from "./Update.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Update = () => {
   let url = process.env.REACT_APP_URL;
+
   // State to hold the current status and error message
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Extract taskId from URL params
   const { taskId } = useParams();
@@ -46,9 +49,8 @@ const Update = () => {
         `${url}/updateTask/${taskId}`,
         { status, token } // Send the new status
       );
+      navigate("/");
 
-      // Handle successful response
-      console.log(response.data);
       alert("Task updated successfully!");
     } catch (error) {
       // Handle error

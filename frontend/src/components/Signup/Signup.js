@@ -17,6 +17,7 @@ const Signup = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const onSubmit = async () => {
+    console.log(url);
     if (
       data.email === "" ||
       data.password === "" ||

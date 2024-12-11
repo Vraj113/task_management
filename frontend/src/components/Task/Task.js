@@ -78,7 +78,7 @@ const Task = ({
               status === "Completed"
                 ? "green"
                 : status === "In Progress"
-                ? "yellow"
+                ? "#E1B10E"
                 : status === "Pending"
                 ? "red"
                 : "inherit",

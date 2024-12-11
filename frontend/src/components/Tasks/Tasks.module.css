@@ -1,11 +1,11 @@
 .main {
   display: flex;
   gap: 10px;
-  width: 80vw;
-  margin: auto;
-  margin-top: 20px;
+  width: 70vw;
+  margin: 20px auto;
   align-items: stretch;
   flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .addTask {
@@ -35,4 +35,13 @@
 a {
   color: black;
   text-decoration: none;
+}
+input {
+  width: auto; /* Default width for other screen sizes */
+}
+
+@media (min-width: 1024px) {
+  input {
+    width: 300px;
+  }
 }

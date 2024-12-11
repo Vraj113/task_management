@@ -36,15 +36,25 @@ const Tasks = () => {
     try {
       const res = await axios.post(`${url}/addTask`, taskData);
       if (res.status === 201) {
-        // Optimistically update the UI with the new task
-        setData((prevData) => [...prevData, res.data]);
+        // Check if the task already exists to prevent duplicates
+        setData((prevData) => {
+          // Prevent adding a duplicate task based on the taskId
+          const taskExists = prevData.some(
+            (task) => task.taskId === res.data.taskId
+          );
+          if (!taskExists) {
+            return [...prevData, res.data];
+          }
+          return prevData;
+        });
+
         setTaskData({
           title: "",
           description: "",
           assignedTo: "",
           token: token,
         });
-        toast("Task Added Sucessfully");
+        toast("Task Added Successfully");
       }
     } catch (error) {
       toast("Error adding task");
@@ -86,60 +96,62 @@ const Tasks = () => {
   }, []);
 
   return (
-    <div className={styles.main}>
+    <>
       <ToastContainer />
-      <div className={styles.addTask}>
-        <div>
+      <div className={styles.main}>
+        <div className={styles.addTask}>
           <div>
-            <div>Title</div>
-            <input
-              type="text"
-              value={taskData.title}
-              name="title"
-              onChange={onChange}
-            />
-          </div>
-          <div>
-            <div>Description</div>
-            <input
-              type="text"
-              value={taskData.description}
-              name="description"
-              onChange={onChange}
-            />
-          </div>
-          <div>
-            <div>Assigned to</div>
-            <input
-              type="text"
-              value={taskData.assignedTo}
-              name="assignedTo"
-              onChange={onChange}
-            />
-          </div>
-          <div>
-            <button className={styles.addTaskBtn} onClick={onSubmit}>
-              Add
-            </button>
+            <div>
+              <div>Title</div>
+              <input
+                type="text"
+                value={taskData.title}
+                name="title"
+                onChange={onChange}
+              />
+            </div>
+            <div>
+              <div>Description</div>
+              <input
+                type="text"
+                value={taskData.description}
+                name="description"
+                onChange={onChange}
+              />
+            </div>
+            <div>
+              <div>Assigned to</div>
+              <input
+                type="text"
+                value={taskData.assignedTo}
+                name="assignedTo"
+                onChange={onChange}
+              />
+            </div>
+            <div>
+              <button className={styles.addTaskBtn} onClick={onSubmit}>
+                Add
+              </button>
+            </div>
           </div>
         </div>
+        {data && data.length > 0 ? (
+          data.map((task, index) => (
+            <Task
+              key={task.taskId || index}
+              title={task.title}
+              description={task.description}
+              status={task.status}
+              assignedTo={task.assignedTo}
+              createdAt={task.createdAt}
+              taskId={task.taskId}
+            />
+          ))
+        ) : (
+          <p>No tasks available</p>
+        )}
       </div>
-      {data && data.length > 0 ? (
-        data.map((task, index) => (
-          <Task
-            key={task.taskId || index}
-            title={task.title}
-            description={task.description}
-            status={task.status}
-            assignedTo={task.assignedTo}
-            createdAt={task.createdAt}
-            taskId={task.taskId}
-          />
-        ))
-      ) : (
-        <p>No tasks available</p>
-      )}
-    </div>
+    </>
   );
 };
 
