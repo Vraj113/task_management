@@ -10,6 +10,7 @@ const Task = ({
   assignedTo,
   createdAt,
   taskId,
+  deleteTask,
 }) => {
   const navigate = useNavigate();
   const url = process.env.REACT_APP_URL;
@@ -31,6 +32,7 @@ const Task = ({
       });
 
       alert(response.data.message);
+      deleteTask(taskId);
       navigate("/"); // Navigate back to the task list or another page after deletion
     } catch (error) {
       console.error("Error deleting task:", error);

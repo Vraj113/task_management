@@ -70,6 +70,9 @@ const Tasks = () => {
       console.error("Error fetching tasks:", error);
     }
   };
+  const deleteTask = (taskId) => {
+    setData((prevData) => prevData.filter((task) => task.taskId !== taskId));
+  };
 
   useEffect(() => {
     getData();
@@ -145,6 +148,7 @@ const Tasks = () => {
               assignedTo={task.assignedTo}
               createdAt={task.createdAt}
               taskId={task.taskId}
+              deleteTask={deleteTask}
             />
           ))
         ) : (
